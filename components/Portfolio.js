@@ -1,7 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {BsThreeDotsVertical} from 'react-icons/bs'
+import {coins} from '../static/coins'
+import Coin from './Coin'
+import axios from 'axios'
+
 const Portfolio = () => {
+    const [INRprice, setINRprice] = useState(1)
+    const getUSDprice = async () => {
+        const response = await axios.get('https://free.currconv.com/api/v7/convert?q=usd_inr&compact=ultra&apiKey=a073a9674b26cc29c184')
+        .catch(e=>{
+            console.log(e)
+        })
+        console.log(response)
+        if(response.data){
+            setINRprice(response.data.USD_INR)
+        }else{
+            setINRprice(1)
+        }
+    }
+    useEffect(()=>{
+        // getUSDprice();
+        console.log("first")
+    },[])
+    console.log(INRprice)
   return (
     <Wrapper>
         <PortfolioTable>
@@ -12,13 +34,22 @@ const Portfolio = () => {
             <Table>
                 <TableItem>
                     <TableRow>
-                        <div>Name</div>
-                        <div>Balance</div>
-                        <div>Price</div>
-                        <div>Allocation</div>
-                        <div><BsThreeDotsVertical/></div>
+                        <div style={{ flex:3 }}>Name</div>
+                        <div style={{ flex:2 }}>Balance</div>
+                        <div style={{ flex:1 }}>Price</div>
+                        <div style={{ flex:1 }}>Allocation</div>
+                        <div style={{ flex:0 }}><BsThreeDotsVertical/></div>
                     </TableRow>
                 </TableItem>
+                <Divider/>
+                <div>
+                    {coins.map( coin => (
+                        <div key={coin.id}>
+                            <Coin coin={coin} price={INRprice}/>
+                            <Divider/>
+                        </div>
+                    ))}
+                </div>
             </Table>
         </PortfolioTable>
     </Wrapper>
