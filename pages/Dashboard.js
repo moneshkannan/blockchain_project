@@ -9,7 +9,7 @@ function Dashboard({address}) {
     <Wrapper>
       <Sidebar/>
       <MainContainer>
-        <Header/>
+        <Header walletAddress={address}/>
         <Main/>
       </MainContainer>
     </Wrapper>
@@ -20,10 +20,11 @@ export default Dashboard
 
 const Wrapper = styled.div`
   display: flex;
-  height: 100vh;
-  width: 100vw;
+  height: 105vh;
+  width: 100%;
   background-color: #0a0b0d;
   color: white;
+  overflow: hidden;
 `
 const MainContainer = styled.div`
   flex: 1;
