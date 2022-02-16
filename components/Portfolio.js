@@ -6,7 +6,8 @@ import Coin from './Coin'
 import axios from 'axios'
 import BalanceChart from './BalanceChart'
 
-const Portfolio = () => {
+const Portfolio = ({walletAddress, sanityTokens, thirdWebTokens}) => {
+    thirdWebTokens[2].balanceOf(walletAddress).then(balance => console.log(balance['displayValue']))
     const [INRprice, setINRprice] = useState(1)
     
     const getUSDprice = async () => {

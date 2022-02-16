@@ -34,15 +34,20 @@ function Dashboard({address}) {
     getSanityAndThirdWebTokens();
   },[])
 
-  console.log("sanity",sanityTokens)
-  console.log("thirdWebTokens",thirdWebTokens)
-
   return (
     <Wrapper>
       <Sidebar/>
       <MainContainer>
-        <Header walletAddress={address}/>
-        <Main/>
+        <Header 
+          walletAddress={address} 
+          sanityTokens={sanityTokens} 
+          thirdWebTokens={thirdWebTokens}
+        />
+        <Main
+          walletAddress={address} 
+          sanityTokens={sanityTokens} 
+          thirdWebTokens={thirdWebTokens}
+        />
       </MainContainer>
     </Wrapper>
   )
