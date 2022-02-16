@@ -8,6 +8,7 @@ import BalanceChart from './BalanceChart'
 
 const Portfolio = () => {
     const [INRprice, setINRprice] = useState(1)
+    const [sanityTokens, setSanityTokens] = useState([])
     const getUSDprice = async () => {
         const response = await axios.get('https://free.currconv.com/api/v7/convert?q=usd_inr&compact=ultra&apiKey=a073a9674b26cc29c184')
         .catch(e=>{
@@ -20,8 +21,23 @@ const Portfolio = () => {
             setINRprice(1)
         }
     }
+
+    const getCoins = async () => {
+        console.log("44")
+        try{
+        const apiCoins = await axios.get("https://dk0dg5q5.api.sanity.io/v2021-10-21/data/query/production?query=*%5B_type%3D%3D'coins'%5D%7B%0A%20%20name%2C%0A%20%20inrPrice%2C%0A%20%20contractAddress%2C%0A%20%20symbol%2C%0A%20%20logo%0A%7D")
+        console.log(apiCoins['data']['result'])
+        const apiCoinsResult = apiCoins['data']['result']
+        setSanityTokens(apiCoinsResult)
+        }
+        catch (e) {
+            console.log(e)
+        }
+        // console.log(apiCoins)
+    }
     useEffect(()=>{
         // getUSDprice();
+        getCoins();
         console.log("first")
     },[])
     console.log(INRprice)
