@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import Transfer from './Transfer'
 
 const TransferModel = () => {
     const [action, setAction] = useState('send')
@@ -14,7 +15,7 @@ const TransferModel = () => {
     const selectedModal = (option) => {
         switch (option) {
             case 'send':
-                return <h2>send</h2>
+                return <Transfer/>
             case 'receive':
                 return <h2>Receive</h2>
             default:
