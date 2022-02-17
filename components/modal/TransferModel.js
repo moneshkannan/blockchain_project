@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import CoinSelector from './CoinSelector'
 import Transfer from './Transfer'
+import { Triangle } from  'react-loader-spinner'
 
 const TransferModel = ({sanityTokens, thirdWebTokens, walletAddress}) => {
     const [action, setAction] = useState('send')
@@ -34,6 +35,35 @@ const TransferModel = ({sanityTokens, thirdWebTokens, walletAddress}) => {
                     thirdWebTokens={thirdWebTokens}
                     walletAddress={walletAddress}
                 />
+            case 'transferring':
+                return <div style={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    fontSize: '1.5rem'
+                }}>
+                    <h2>Transfer in progress</h2>
+                    <Triangle
+                        height="100"
+                        width="100"
+                        color='#3773f5'
+                        ariaLabel='loading'
+                    />
+                </div>
+            case 'transferred':
+                return <div style={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    fontSize: '1.5rem'
+                }}>
+                    Transfer Complete
+                </div>
             default:
                 return <h2>send</h2>
         }
