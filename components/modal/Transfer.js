@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {FaWallet} from 'react-icons/fa'
@@ -34,7 +35,7 @@ const Transfer = ({selectedToken, setAction, thirdWebTokens, walletAddress}) => 
         if(activeThirdWebToken){
             getBalance()
         }
-    },[activeThirdWebToken])
+    },[activeThirdWebToken, walletAddress])
 
     //send crypto
     const sendCrypto = async(amount, recepient) => {
@@ -122,7 +123,7 @@ const FlexInput = styled.input`
     outline: none;
     color: white;
     font-size: 1.2rem;
-    text-wrap: wrap;
+    /* text-wrap: wrap; */
     text-align: right;
     max-width: 45%;
     margin-right: 1rem;
@@ -189,7 +190,7 @@ const Recepient = styled.input`
     outline: none;
     color: white;
     font-size: 1.2rem;
-    text-wrap: wrap;
+    /* text-wrap: wrap; */
     margin-right: 0.5rem;
 `
 
@@ -210,7 +211,7 @@ const CoinName = styled.div`
     outline: none;
     color: white;
     font-size: 1.2rem;
-    text-wrap: wrap;
+    /* text-wrap: wrap; */
     margin-right: 0.5rem;
 `
 

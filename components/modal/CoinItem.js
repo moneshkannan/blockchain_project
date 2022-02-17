@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import imageUrlBuilder from '@sanity/image-url'
@@ -36,7 +37,7 @@ const CoinItem = ({
         }
         getBalance();
         getImageUrl();
-    },[])
+    },[sender, thirdWebTokens, token.contractAddress, token.logo])
   return (
     <Wrapper 
         style={{backgroundColor: selectedToken.name === token.name && '#141519'}}
