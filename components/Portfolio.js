@@ -7,30 +7,29 @@ import axios from 'axios'
 import BalanceChart from './BalanceChart'
 
 const Portfolio = ({walletAddress, sanityTokens, thirdWebTokens}) => {
-    // thirdWebTokens[2].balanceOf(walletAddress).then(balance => console.log(Number(balance['displayValue'])))
+    // thirdWebTokens[2].balanceOf(walletAddress).then(balance => 
     const [walletBalance, setWalletBalance] = useState(0)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const tokenToUSD = {}
     for(const token of sanityTokens){
         tokenToUSD[token.contractAddress] = Number(token.usdPrice)
     }
-    console.log(tokenToUSD)
-    console.table(tokenToUSD)
 
     const [INRprice, setINRprice] = useState(75)
     
     const getUSDprice = async () => {
         const response = await axios.get('https://free.currconv.com/api/v7/convert?q=usd_inr&compact=ultra&apiKey=a073a9674b26cc29c184')
         .catch(e=>{
-            console.log(e)
+            
         })
-        console.log(response)
+        
         if(response.data){
             setINRprice(response.data.USD_INR)
         }else{
             setINRprice(1)
         }
     }
-    console.log(INRprice*walletBalance)
+    
     useEffect(()=>{
         // getUSDprice();
         const calculateTotalBalance = async () => {

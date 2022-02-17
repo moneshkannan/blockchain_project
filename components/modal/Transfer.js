@@ -16,14 +16,14 @@ const Transfer = ({selectedToken, setAction, thirdWebTokens, walletAddress}) => 
         const activeToken = thirdWebTokens.find(
             token => token.address === selectedToken.contractAddress
         )
-        console.log(activeToken,"fhg")
+        
         setActiveThirdWebToken(activeToken)
     },[thirdWebTokens, selectedToken])
   
     useEffect(()=>{
-        console.log("st",selectedToken)
+        
         const url = ImageUrlBuilder(client).image(selectedToken.logo).url()
-        console.log(url)
+        
         setImageUrl(url)
     },[selectedToken])
 
@@ -39,14 +39,14 @@ const Transfer = ({selectedToken, setAction, thirdWebTokens, walletAddress}) => 
 
     //send crypto
     const sendCrypto = async(amount, recepient) => {
-        console.log("sending Crypto")
+        
         setAction('transferring')
         if(activeThirdWebToken && amount && recepient){
             const tx = await activeThirdWebToken.transfer(
                 recepient,
                 amount.toString().concat('000000000000000000')
             )
-            console.log(tx)
+            
             setAction('transferred')
         } else {
             console.error('missing Data')

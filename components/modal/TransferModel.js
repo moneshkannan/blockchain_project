@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import CoinSelector from './CoinSelector'
 import Transfer from './Transfer'
 import { Triangle } from  'react-loader-spinner'
+import Receive from './Receive'
+import Lottie from 'react-lottie'
+import Success from '../../animation/success.json'
 
 const TransferModel = ({sanityTokens, thirdWebTokens, walletAddress}) => {
     const [action, setAction] = useState('send')
@@ -15,6 +18,15 @@ const TransferModel = ({sanityTokens, thirdWebTokens, walletAddress}) => {
         border: '1px solid #282b2f'
     }
 
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: Success,
+        rendererSettings: {
+          preserveAspectRatio: "xMidYMid slice"
+        }
+    };
+
     const selectedModal = (option) => {
         switch (option) {
             case 'send':
@@ -24,8 +36,6 @@ const TransferModel = ({sanityTokens, thirdWebTokens, walletAddress}) => {
                             thirdWebTokens={thirdWebTokens}
                             walletAddress={walletAddress}
                         />
-            case 'receive':
-                return <h2>Receive</h2>
             case 'select':
                 return <CoinSelector
                     setAction={setAction}
@@ -58,12 +68,22 @@ const TransferModel = ({sanityTokens, thirdWebTokens, walletAddress}) => {
                     width: '100%',
                     height: '100%',
                     display: 'flex',
+                    flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
                     fontSize: '1.5rem'
                 }}>
-                    Transfer Complete
+                    <h2>Transfer Complete</h2>
+                    <Lottie options={defaultOptions} height={300} width={300}/> 
                 </div>
+            case 'receive':
+                return(
+                    <Receive
+                        setAction={setAction}
+                        selectedToken={selectedToken}
+                        walletAddress = {walletAddress}
+                    />
+                )
             default:
                 return <h2>send</h2>
         }
