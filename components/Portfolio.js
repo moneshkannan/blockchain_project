@@ -43,7 +43,17 @@ const Portfolio = ({walletAddress, sanityTokens, thirdWebTokens}) => {
             setWalletBalance(totalBalance.reduce((acc, curr) => acc + curr, 0))
         }
         return calculateTotalBalance()
-    },[thirdWebTokens, sanityTokens])
+    },[thirdWebTokens, sanityTokens, walletAddress, tokenToUSD])
+
+    const totalBalanceInINR = (totalBalanceInINRPrice) => {
+        if(totalBalanceInINRPrice > 9999999){
+            return (totalBalanceInINRPrice/10000000).toFixed(2)+' '+'Cr'
+        }else if(9999999 > totalBalanceInINRPrice && totalBalanceInINRPrice > 99999){
+            return (totalBalanceInINRPrice/100000).toFixed(2)+' '+'L'
+        }else{
+            return totalBalanceInINRPrice.toFixed(2)
+        }
+    }
   return (
     <Wrapper>
         <Content>
@@ -53,8 +63,7 @@ const Portfolio = ({walletAddress, sanityTokens, thirdWebTokens}) => {
                         <BalanceTitle>Portfolio Balance</BalanceTitle>
                         <BalanceValue>
                             {'₹'}
-                            {((INRprice*walletBalance)/10000000).toFixed(2)}
-                            {'Cr'}
+                            {totalBalanceInINR(walletBalance*INRprice)}
                             {/* 4,000 */}
                         </BalanceValue>
                     </Balance>
