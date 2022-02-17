@@ -10,6 +10,17 @@ const TransferModel = () => {
     const unSelectedStyle = {
         border: '1px solid #282b2f'
     }
+
+    const selectedModal = (option) => {
+        switch (option) {
+            case 'send':
+                return <h2>send</h2>
+            case 'receive':
+                return <h2>Receive</h2>
+            default:
+                return <h2>send</h2>
+        }
+    }
   return (
     <Wrapper>
         <Selector>
@@ -26,6 +37,9 @@ const TransferModel = () => {
                 <p>receive</p>
             </Options>
         </Selector>
+        <ModalMain>
+            {selectedModal(action)}
+        </ModalMain>
     </Wrapper>
   )
 }
@@ -60,4 +74,9 @@ const Options = styled.div`
         cursor: pointer;
         background-color: #111214;
     }
+`
+
+const ModalMain = styled.div`
+    padding: 1rem;
+    flex: 1;
 `
