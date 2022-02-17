@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const Transfer = () => {
+  const [amount, setAmount] = useState(0)
   return (
       <Wrapper>
-          <h2>transfer</h2>
+          <Amount>
+              <FlexInputContainer>
+                  <FlexInput placeholder="0" type="number" value={amount} onChange={(e) => setAmount(e.target.value)}/>
+                  <span>ETH</span>
+              </FlexInputContainer>
+              <Warning style={{color: amount && '#0a0b0d'}}> Amount is a required field</Warning>
+          </Amount>
       </Wrapper>
   )
 }
