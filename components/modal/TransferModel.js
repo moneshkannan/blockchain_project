@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import CoinSelector from './CoinSelector'
 import Transfer from './Transfer'
 
 const TransferModel = ({sanityTokens, thirdWebTokens, walletAddress}) => {
@@ -24,6 +25,15 @@ const TransferModel = ({sanityTokens, thirdWebTokens, walletAddress}) => {
                         />
             case 'receive':
                 return <h2>Receive</h2>
+            case 'select':
+                return <CoinSelector
+                    setAction={setAction}
+                    selectedToken={selectedToken}
+                    setSelectedToken = {setSelectedToken}
+                    sanityTokens={sanityTokens}
+                    thirdWebTokens={thirdWebTokens}
+                    walletAddress={walletAddress}
+                />
             default:
                 return <h2>send</h2>
         }
