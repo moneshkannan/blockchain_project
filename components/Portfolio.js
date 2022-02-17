@@ -7,8 +7,16 @@ import axios from 'axios'
 import BalanceChart from './BalanceChart'
 
 const Portfolio = ({walletAddress, sanityTokens, thirdWebTokens}) => {
-    thirdWebTokens[2].balanceOf(walletAddress).then(balance => console.log(balance['displayValue']))
-    const [INRprice, setINRprice] = useState(1)
+    // thirdWebTokens[2].balanceOf(walletAddress).then(balance => console.log(Number(balance['displayValue'])))
+    const [walletBalance, setWalletBalance] = useState(0)
+    const tokenToUSD = {}
+    for(const token of sanityTokens){
+        tokenToUSD[token.contractAddress] = Number(token.usdPrice)
+    }
+    console.log(tokenToUSD)
+    console.table(tokenToUSD)
+
+    const [INRprice, setINRprice] = useState(75)
     
     const getUSDprice = async () => {
         const response = await axios.get('https://free.currconv.com/api/v7/convert?q=usd_inr&compact=ultra&apiKey=a073a9674b26cc29c184')
@@ -22,9 +30,20 @@ const Portfolio = ({walletAddress, sanityTokens, thirdWebTokens}) => {
             setINRprice(1)
         }
     }
+    console.log(INRprice*walletBalance)
     useEffect(()=>{
         // getUSDprice();
-    },[])
+        const calculateTotalBalance = async () => {
+            const totalBalance = await Promise.all(
+                thirdWebTokens.map(async token =>{
+                    const balance = await token.balanceOf(walletAddress)
+                    return Number(balance.displayValue) * tokenToUSD[token.address]
+                })
+            )
+            setWalletBalance(totalBalance.reduce((acc, curr) => acc + curr, 0))
+        }
+        return calculateTotalBalance()
+    },[thirdWebTokens, sanityTokens])
   return (
     <Wrapper>
         <Content>
@@ -33,9 +52,10 @@ const Portfolio = ({walletAddress, sanityTokens, thirdWebTokens}) => {
                     <Balance>
                         <BalanceTitle>Portfolio Balance</BalanceTitle>
                         <BalanceValue>
-                            {'$'}
-                            {/* {walletBalance.toLocaleString()} */}
-                            4,000
+                            {'₹'}
+                            {((INRprice*walletBalance)/10000000).toFixed(2)}
+                            {'Cr'}
+                            {/* 4,000 */}
                         </BalanceValue>
                     </Balance>
                 </div>

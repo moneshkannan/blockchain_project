@@ -33,8 +33,8 @@ export default createSchema({
           type: 'string',
         },
         {
-          title: 'INR Price',
-          name: 'inrPrice',
+          title: 'USD Price',
+          name: 'usdPrice',
           type: 'string',
         },
         {
