@@ -35,13 +35,13 @@ const TransferModel = ({sanityTokens, thirdWebTokens, walletAddress}) => {
                 style={action === 'send' ? selectedStyle : unSelectedStyle} 
                 onClick={() => setAction('send')}
                 >
-                <p>send</p>
+                <p>Send</p>
             </Options>
             <Options 
                 style={action === 'receive' ? selectedStyle : unSelectedStyle} 
                 onClick={() => setAction('receive')}
                 >
-                <p>receive</p>
+                <p>Receive</p>
             </Options>
         </Selector>
         <ModalMain>

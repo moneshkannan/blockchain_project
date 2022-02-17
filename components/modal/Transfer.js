@@ -8,6 +8,16 @@ const Transfer = ({selectedToken, setAction, thirdWebTokens, walletAddress}) => 
   const [amount, setAmount] = useState()
   const [recepient, setRecepient] = useState('')
   const [imageUrl, setImageUrl] = useState(null)
+  const [activeThirdWebToken, setActiveThirdWebToken] = useState()
+  const [balance, setBalance] = useState('Fetching......')
+
+    useEffect(()=>{
+        const activeToken = thirdWebTokens.find(
+            token => token.address === selectedToken.contractAddress
+        )
+        console.log(activeToken,"fhg")
+        setActiveThirdWebToken(activeToken)
+    },[thirdWebTokens, selectedToken])
   
     useEffect(()=>{
         console.log("st",selectedToken)
@@ -15,12 +25,37 @@ const Transfer = ({selectedToken, setAction, thirdWebTokens, walletAddress}) => 
         console.log(url)
         setImageUrl(url)
     },[selectedToken])
+
+    useEffect(()=>{
+        const getBalance = async () =>{
+            const balance = await activeThirdWebToken.balanceOf(walletAddress)
+            setBalance(balance.displayValue)
+        }
+        if(activeThirdWebToken){
+            getBalance()
+        }
+    },[activeThirdWebToken])
+
+    //send crypto
+    const sendCrypto = async(amount, recepient) => {
+        console.log("sending Crypto")
+        if(activeThirdWebToken && amount && recepient){
+            const tx = await activeThirdWebToken.transfer(
+                recepient,
+                amount.toString().concat('000000000000000000')
+            )
+            console.log(tx)
+            setAction('transferred')
+        } else {
+            console.error('missing Data')
+        }
+    }
   return (
       <Wrapper>
           <Amount>
               <FlexInputContainer>
                   <FlexInput placeholder="0" type="number" value={amount} onChange={(e) => setAmount(e.target.value)}/>
-                  <span>ETH</span>
+                  <span>{selectedToken.symbol}</span>
               </FlexInputContainer>
               <Warning style={{color: amount && '#0a0b0d'}}> Amount is a required field</Warning>
           </Amount>
@@ -39,16 +74,16 @@ const Transfer = ({selectedToken, setAction, thirdWebTokens, walletAddress}) => 
                       <Icon>
                           <img src={imageUrl} alt=""/>
                       </Icon>
-                      <CoinName>Ethereum</CoinName>
+                      <CoinName>{selectedToken.name}</CoinName>
                   </CoinSelectList>
               </Row>
           </TransferForm>
           <Row>
-              <Continue>Continue</Continue>
+              <Continue onClick={() =>sendCrypto(amount, recepient)}>Continue</Continue>
           </Row>
           <Row>
-              <BalanceTitle>ETH Balance</BalanceTitle>
-              <Balance>0.045</Balance>
+              <BalanceTitle>{selectedToken.symbol} Balance</BalanceTitle>
+              <Balance>{balance} {selectedToken.symbol}</Balance>
           </Row>
       </Wrapper>
   )
