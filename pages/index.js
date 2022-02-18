@@ -1,11 +1,16 @@
 import styled from 'styled-components'
 import {useWeb3} from '@3rdweb/hooks'
 import Dashboard from './Dashboard'
+import Head from 'next/head'
 
 export default function Home() {
   const {address, connectWallet} = useWeb3()
   return (
     <Wrapper>
+      <Head>
+        <title>Coinbase</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       {address ? (
         <Dashboard address={address}/>
         // <h2>{address}</h2>
@@ -16,6 +21,7 @@ export default function Home() {
             You need Chrome to be
             <br/> able to run this app 
           </Details>
+          <h2>Developed By Monesh</h2>
         </WalletConnect>
       )}
     </Wrapper>
